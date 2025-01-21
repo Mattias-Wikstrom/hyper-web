@@ -182,13 +182,13 @@ public final class Trig
             ;
         else if (d == 0)
         {
-            ret.add(new Double(-p/2));
+            ret.add(Double.valueOf(-p/2));
         }
         else
         {
             double dr = Math.sqrt(d);
-            ret.add(new Double(-p/2 + dr));
-            ret.add(new Double(-p/2 - dr));
+            ret.add(Double.valueOf(-p/2 + dr));
+            ret.add(Double.valueOf(-p/2 - dr));
         }
 
         return ret;
