@@ -38,7 +38,7 @@ public class HyperResources extends ListResourceBundle {
     { "Info",
     "\n" +
     "Hyper -- Version 0.2\n" +
-    "Copyright © Mattias Wikström 2006\n" +
+    "Copyright Â© Mattias WikstrÃ¶m 2006\n" +
     "\n" +
     "This program is for drawing things on curved planes.\n" +
     "\n" +
