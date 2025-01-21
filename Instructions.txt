@@ -1,0 +1,41 @@
+1. Use the following commands to compile the code:
+    javac Hyper.java
+    javac HyperResources.java
+
+2. Then run the program through the following command:
+    java Hyper
+
+3. To get started with the program, use the following keyboard keys:
+    Left, Right -- Turn around
+    Up -- Move forward
+    Down -- Move backward
+
+    A -- Draw point at main cursor
+
+    F5 -- Decrease curvature
+    F6 -- Increase curvature
+
+4. The complete list of supported keys is as follows:
+    Keys used for moving:
+        Left, Right -- Turn around
+        Up -- Move forward
+        Down -- Move backward
+        Page Up, Page Down -- Move auxilary cursor
+        Insert -- Flip auxilary cursor
+        Hold down Shift and/or Control while moving to move slowly.
+        
+    Keys used for drawing:
+        Q -- Draw point at auxilary cursor
+        A -- Draw point at main cursor
+
+    Keys used for erasing:
+        Z -- Erase at cursor
+        X -- Like Z, but bigger eraser
+        C -- Like Z, but erase only points
+
+    Function keys:
+        F1 -- Show help screen
+        F2 -- Save
+        F5 -- Decrease curvature
+        F6 -- Increase curvature
+        F8 -- Reset curvature
