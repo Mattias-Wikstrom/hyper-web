@@ -37,8 +37,7 @@ public class HyperResources extends ListResourceBundle {
                             "Would you like to overwrite it?"},
     { "Info",
     "\n" +
-    "Hyper -- Version 0.2\n" +
-    "Copyright © Mattias Wikström 2006\n" +
+    "Hyper -- Version 0.3\n" +
     "\n" +
     "This program is for drawing things on curved planes.\n" +
     "\n" +
@@ -75,6 +74,15 @@ public class HyperResources extends ListResourceBundle {
     "F6 -- Increase curvature\n" +
     "F8 -- Reset curvature\n" +
     //"F10 -- Toggle between 2D/3D views\n"
+    "\n" +
+    "License information:\n" +
+    "This software is licensed under the MIT License. Copyright © 2006-2025 Mattias Wikström.\n" +
+    "\n" +
+    "Permission is hereby granted, free of charge, to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is provided to do so, subject to the following conditions:\n" +
+    "\n" +
+    "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n" +
+    "\n" +
+    "THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n" +
     ""}};
 }
 
