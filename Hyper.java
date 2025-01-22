@@ -129,7 +129,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
         p.add(bCancel);
 
         d.add("South", p);
-        d.setSize(400, 100);
+        d.setSize(400, 200);
         d.setResizable(false);
         centerWindow(d);
 
@@ -342,7 +342,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
         if ((new File(txtFilename)).exists())
         {
             final Dialog d2 = new Dialog((Frame)this.getParent(), resources.getString("AppName"), true);
-            d2.setSize(400, 100);
+            d2.setSize(400, 200);
             centerWindow(d2);
 
             Button b1 = new Button(resources.getString("btnYes"));
@@ -402,7 +402,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
         catch (Exception e)
         {
             final Dialog d2 = new Dialog((Frame)this.getParent(), resources.getString("AppName"), true);
-            d2.setSize(400, 100);
+            d2.setSize(400, 200);
             centerWindow(d2);
 
             Button b = new Button(resources.getString("btnOK"));
@@ -417,6 +417,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
             p2.add(b);
             d2.add("South", p2);
             d2.setVisible(true);
+            d2.setSize(400, 200);
             return false;
         }
 
@@ -444,7 +445,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
         catch (Exception exception)
         {
             final Dialog d2 = new Dialog((Frame)this.getParent(), resources.getString("AppName"), true);
-            d2.setSize(400, 100);
+            d2.setSize(800, 200);
             centerWindow(d2);
 
             Button b = new Button(resources.getString("btnOK"));
@@ -459,6 +460,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
             p2.add(b);
             d2.add("South", p2);
             d2.setVisible(true);
+            d2.setSize(800, 200);
             return false;
         }
 
@@ -470,7 +472,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
         if (curvdlg == null)
         {
             curvdlg = new Dialog((Frame)this.getParent(), resources.getString("dlgCurvature"), false);
-
+            
             curvdlg.addWindowListener(new WindowListener()
             {
                 public void windowClosing(WindowEvent e)
@@ -516,7 +518,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
 
             curvdlg.add("North", slider);
 
-            curvdlg.setSize(400, 70);
+            curvdlg.setSize(400, 140);
             centerWindow(curvdlg);
             curvdlg.setLocation(new java.awt.Point(400, 0));
         }
@@ -545,7 +547,7 @@ public class Hyper extends Panel implements KeyListener, WindowListener, ActionL
         Panel p = new Panel();
         p.add("Center", b);
         d.add("South", p);
-        d.setSize(400, 400);
+        d.setSize(800, 500);
         d.setResizable(false);
         centerWindow(d);
 
