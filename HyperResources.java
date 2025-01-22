@@ -76,7 +76,7 @@ public class HyperResources extends ListResourceBundle {
     //"F10 -- Toggle between 2D/3D views\n"
     "\n" +
     "License information:\n" +
-    "This software is licensed under the MIT License. Copyright © 2006-2025 Mattias Wikström.\n" +
+    "This software is licensed under the MIT License. Copyright © 2006, 2025 Mattias Wikström.\n" +
     "\n" +
     "Permission is hereby granted, free of charge, to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is provided to do so, subject to the following conditions:\n" +
     "\n" +
