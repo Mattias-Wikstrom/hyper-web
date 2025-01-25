@@ -1,3 +1,5 @@
+package com.mattiaswikstrom.hyper;
+
 import java.util.*;
 
 public class HyperResources extends ListResourceBundle {

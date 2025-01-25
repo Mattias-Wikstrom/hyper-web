@@ -1,4 +1,8 @@
-public class Angle
+package com.mattiaswikstrom.hyper;
+
+import java.io.Serializable;
+
+public class Angle implements Serializable
 {
     final public double a;
 

@@ -1,6 +1,9 @@
-import java.util.*;
+package com.mattiaswikstrom.hyper;
 
-public final class Trig
+import java.util.*;
+import java.io.Serializable;
+
+public final class Trig implements Serializable
 {
     private double k;
     private double kinv;

@@ -1,3 +1,5 @@
+package com.mattiaswikstrom.hyper;
+
 import java.io.*;
 import java.util.*;
 
@@ -11,7 +13,7 @@ public final class Space implements Serializable
         return elements.iterator();
     }
 
-    public void draw(java.awt.Graphics2D g)
+    public void draw(javafx.scene.canvas.GraphicsContext g)
     {
         for (Iterator i = elements.iterator(); i.hasNext(); )
         {

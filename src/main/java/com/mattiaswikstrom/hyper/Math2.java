@@ -1,3 +1,5 @@
+package com.mattiaswikstrom.hyper;
+
 public class Math2
 {
     public static double cosh(double f)

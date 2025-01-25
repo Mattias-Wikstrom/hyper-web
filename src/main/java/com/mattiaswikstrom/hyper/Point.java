@@ -1,5 +1,4 @@
-import java.awt.*;
-import java.awt.geom.*;
+package com.mattiaswikstrom.hyper;
 
 public final class Point extends Element
 {
@@ -66,12 +65,12 @@ public final class Point extends Element
             }
     }
 
-    protected void draw(Graphics2D g)
+    protected void draw(javafx.scene.canvas.GraphicsContext g)
     {
         double x = getDistance().l * Math.cos(getAngle().a - 0.5 * Math.PI);
         double y = getDistance().l * Math.sin(getAngle().a - 0.5 * Math.PI);
 
-        g.fill(new Ellipse2D.Double(x - 0.05, y - 0.05, 0.1, 0.1));
+        g.fillOval(x - 0.05, y - 0.05, 0.1, 0.1);
     }
 
     public boolean withinRadius(Length r)

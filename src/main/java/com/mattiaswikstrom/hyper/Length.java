@@ -1,4 +1,8 @@
-public class Length
+package com.mattiaswikstrom.hyper;
+
+import java.io.Serializable;
+
+public class Length implements Serializable
 {
     final public double l;
 
