@@ -39,7 +39,7 @@ public class HyperResources extends ListResourceBundle {
                             "Would you like to overwrite it?"},
     { "Info",
     "\n" +
-    "Hyper -- Version 0.3\n" +
+    "Hyper -- Version 0.4\n" +
     "\n" +
     "This program is for drawing things on curved planes.\n" +
     "\n" +
