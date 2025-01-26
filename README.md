@@ -21,7 +21,11 @@ Make sure the following are installed:
 
 1. Set the environment variable `JAVA_FX_SDK_PATH` to point to the location where the JavaFX SDK is installed. For example:
     ```bash
-    export JAVA_FX_SDK_PATH=../javafx-sdk-23.0.2
+    export JAVA_FX_SDK_PATH=/some/path/javafx-sdk-23.0.2
+    ```
+ or
+    ```
+    set JAVA_FX_SDK_PATH=C:\some\path\javafx-sdk-23.0.2
     ```
 
 ## Building the Project
@@ -48,6 +52,11 @@ Make sure the following are installed:
     - **Option 3 (Linux):**
       ```bash
       target/image/bin/com.mattiaswikstrom.hyper.Hyper
+      ```
+
+    - **Option 3 (Windows):**
+      ```bash
+      target\image\bin\com.mattiaswikstrom.hyper.Hyper.bat
       ```
 
 ## Getting Started with the Program
