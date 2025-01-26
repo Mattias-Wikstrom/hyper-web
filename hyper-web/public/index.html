@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper Application</title>
+    <style>
+        .menu {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            display: inline-block;
+            padding-right: 12px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+        }
+
+        .menu-item {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="react-root"></div>
+
+    <!-- Import the Hyper.js file as a module -->
+    <script type="module">
+        import Hyper from './Hyper.js';  // Adjust the path based on where the Hyper.js file is located
+
+        // Create a new instance of Hyper
+        const app = new Hyper();
+
+        let isDirty = true;
+
+        app.setHasChangedListener((_isDirty) => 
+        {
+            isDirty = _isDirty;
+        });
+
+        app.start(); // Start the application
+
+        window.addEventListener('beforeunload', function(event) {
+            if (isDirty) {
+                const message = "Are you sure you want to leave this page?";
+                event.returnValue = message;  // Required for some browsers
+                return message;  // Required for others
+            }
+        });
+    </script>
+</body>
+</html>
