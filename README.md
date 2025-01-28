@@ -1,4 +1,4 @@
-# About the Program
+# About Hyper
 *Hyper* can be used to draw things on surfaces of constant curvature. There are three possibilities:
 - Setting the curvature to 0 leads to ordinary Euclidean geometry.
 - Setting the curvature to a positive value leads to spherical geometry.
@@ -7,8 +7,15 @@
 The program is at the same time i) a simple drawing program that one can use to draw things and ii) a program that one can use to move around on a surface and explore what has been drawn from different positions and angles.
 
 The program may be used as a pedagogical tool when teaching geometry.
+# Versions of Hyper
+Hyper currently exists in two versions:
+* A desktop version written in Java.
+* A web version written in TypeScript which uses React (NOTE: The current web version is a first version only and does *not* support saving things).
 
-# Setup and Usage
+# Trying Hyper Online
+The web version of Hyper can be tried [here](https://mattias-wikstrom.github.io/hyper/).
+
+# Building and Running the Java Version
 
 ## Prerequisites
 
@@ -59,9 +66,11 @@ Make sure the following are installed:
       target\image\bin\com.mattiaswikstrom.hyper.Hyper.bat
       ```
 
-## Getting Started with the Program
+## Getting Started with Hyper
 
-Use the following keyboard keys to interact with the program:
+The feature that makes Hyper unique among drawing programs is the ability to change the curvature of the surface that things are drawn on. This can be done through the 'Edit Curvature' window.
+
+You can use the following keyboard keys to interact with Hyper:
 
 - **Movement Controls:**
     - `Left`, `Right` – Turn around
@@ -72,11 +81,7 @@ Use the following keyboard keys to interact with the program:
     - `A` – Draw point at main cursor
     - `Q` – Draw point at auxiliary cursor
 
-- **Curvature Controls:**
-    - `F5` – Decrease curvature
-    - `F6` – Increase curvature
-
-## Complete List of Supported Keys
+## A More Complete List of Supported Keys
 
 ### Keys for Moving:
 - `Left`, `Right` – Turn around
@@ -93,14 +98,17 @@ Use the following keyboard keys to interact with the program:
 ### Keys for Erasing:
 - `Z` – Erase at cursor
 - `X` – Erase at cursor with a bigger eraser
-- `C` – Erase only points
 
-### Function Keys:
-- `F1` – Show help screen
-- `F2` – Save
-- `F5` – Decrease curvature
-- `F6` – Increase curvature
-- `F8` – Reset curvature
+### Keys for Zooming:
+- `O` – Zoom in
+- `P` – Zoom out
+
+### Function Keys (Desktop Version Only):
+-- `F1` – Show help screen
+-- `F2` – Save
+-- `F5` – Decrease curvature
+-- `F6` – Increase curvature
+-- `F8` – Reset curvature
 
 ## License
 
