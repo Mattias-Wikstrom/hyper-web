@@ -1,6 +1,5 @@
 import { Length  } from "./Length.js";
 import { Angle  } from "./Angle.js";
-import { Space  } from "./Space.js";
 
 export abstract class SpaceElement {
     abstract draw(g: CanvasRenderingContext2D): void;

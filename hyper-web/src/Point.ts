@@ -1,6 +1,5 @@
 import { Length  } from "./Length.js";
 import { Angle  } from "./Angle.js";
-import { Space  } from "./Space.js";
 import { Trig  } from "./Trig.js";
 import { SpaceElement  } from "./SpaceElement.js";
 
