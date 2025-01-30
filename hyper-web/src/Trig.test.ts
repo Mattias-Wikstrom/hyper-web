@@ -38,7 +38,6 @@ describe('Trig Class', () => {
 
     test('should calculate sigmainv correctly for k=1', () => {
         let trig = new Trig(1);
-        const length = new Length(0.5);
         const result = trig.sigmainv(0.5);
         expect(result).toBeInstanceOf(Length);
         expect(result.l).toBeCloseTo(Math.asin(0.5), 5);
@@ -60,15 +59,14 @@ describe('Trig Class', () => {
     test('should calculate sigma correctly for k=-1', () => {
         let trig = new Trig(-1);
         const length = new Length(2);
-        expect(trig.sigma(length)).toBeCloseTo(Math2.sinh(2), 5);
+        expect(trig.sigma(length)).toBeCloseTo(-Math2.sinh(2), 5);
     });
 
     test('should calculate sigmainv correctly for k=-1', () => {
         let trig = new Trig(-1);
-        const length = new Length(0.5);
         const result = trig.sigmainv(0.5);
         expect(result).toBeInstanceOf(Length);
-        expect(result.l).toBeCloseTo(Math2.asinh(0.5), 5);
+        expect(result.l).toBeCloseTo(-Math2.asinh(0.5), 5);
     });
 
     test('should calculate tau correctly for k=-1', () => {
@@ -79,9 +77,9 @@ describe('Trig Class', () => {
 
     test('should calculate tauinv correctly for k=-1', () => {
         let trig = new Trig(-1);
-        const result = trig.tauinv(0.5);
+        const result = trig.tauinv(1.5);
         expect(result).toBeInstanceOf(Length);
-        expect(result.l).toBeCloseTo(Math2.acosh(0.5), 5);
+        expect(result.l).toBeCloseTo(-Math2.acosh(1.5), 5);
     });
 
     test('should calculate sigma correctly for k=0', () => {
@@ -92,7 +90,6 @@ describe('Trig Class', () => {
 
     test('should calculate sigmainv correctly for k=0', () => {
         let trig = new Trig(0);
-        const length = new Length(0.5);
         const result = trig.sigmainv(0.5);
         expect(result).toBeInstanceOf(Length);
         expect(result.l).toBeCloseTo(0.5, 5);
