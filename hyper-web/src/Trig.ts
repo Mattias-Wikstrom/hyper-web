@@ -30,6 +30,10 @@ export class Trig {
         return new Angle(Math.acos(d));
     }
 
+    /*
+        This function appears in the Law of Sines in non-Euclidean geometry:
+            sin(α)/σ(a) = sin(β)/σ(b) = sin(γ)/σ(c)
+    */
     sigma(l: Length): number {
         if (this.k === 0) return l.l;
         else if (this.k < 0) return Math.sinh(l.l * this.k);
@@ -42,6 +46,10 @@ export class Trig {
         else return new Length(this.kinv * Math.asin(d));
     }
 
+    /*
+        This function appears in the Law of Cosines in non-Euclidean geometry:
+            τ(c)=τ(a)⋅τ(b)+σ(a)⋅σ(b)⋅cos(γ)
+    */
     tau(l: Length): number {
         if (this.k === 0) return 1;
         else if (this.k < 0) return Math.cosh(l.l * this.k);
@@ -85,7 +93,14 @@ export class Trig {
     }
 
     side_from_sas(s1: Length, a: Angle, s2: Length): Length {
-        return this.tauinv(this.tau(s1) * this.tau(s2) + this.sigma(s1) * this.sigma(s2) * Trig.cos(a));
+        if (this.k === 0) {
+            // Euclidean case: Use the Law of Cosines
+            const cSquared = Trig.square(s1) + Trig.square(s2) - 2 * s1.l * s2.l * Trig.cos(a);
+            return new Length(Math.sqrt(cSquared));
+        } else {
+            // Non-Euclidean case: Use the generalized formula
+            return this.tauinv(this.tau(s1) * this.tau(s2) + this.sigma(s1) * this.sigma(s2) * Trig.cos(a));
+        }
     }
 
     angle_from_ssr(s1: Length, s2: Length): Angle {
