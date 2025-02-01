@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@mui/material';
 
 interface ModalProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const InfoModal: React.FC<ModalProps> = ({ isOpen, onClose, title, content }) =>
       <div style={styles.modal}>
         <h2>{title}</h2>
         <p style={{maxHeight: "400px", overflow: "scroll", textAlign: "left"}}>{contentWithLineBreaks}</p>
-        <button onClick={onClose}>Close</button>
+        <Button onClick={onClose} variant="contained">Close</Button>
       </div>
     </div>
   );

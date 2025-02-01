@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Typography } from '@mui/material';
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,7 +16,9 @@ const CurvatureModal: React.FC<ModalProps> = ({ isOpen, onClose, title, previous
   return (
     <div style={styles.overlay}>
       <div style={styles.modal}>
-        <h2>{title}</h2>
+        <Typography variant="h3" gutterBottom>
+          {title}
+        </Typography>
         <label htmlFor="slider" style={{ display: 'block', marginBottom: '10px' }}>
           Curvature:
         </label>
@@ -58,7 +61,7 @@ const CurvatureModal: React.FC<ModalProps> = ({ isOpen, onClose, title, previous
         <br></br>
         <br></br>
         <br></br>
-        <button onClick={() => onClose(curvature)}>Close</button>
+        <Button onClick={() => onClose(curvature)} variant="contained">Close</Button>
       </div>
     </div>
   );
