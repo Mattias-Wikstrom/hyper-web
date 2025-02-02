@@ -844,13 +844,5 @@ class Hyper extends Component<HyperProps, HyperState> {
   }
 }
 
-const about = `
-       `;
-
-const instructions = `
-        
-        `;
-
-
 export default withTheme(Hyper);
 

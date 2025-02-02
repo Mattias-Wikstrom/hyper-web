@@ -14,11 +14,6 @@ describe('Trig Class', () => {
         trigSpherical = new Trig(1); // Spherical geometry (k = 1 for simplicity)
     });
 
-    // Helper function to compare floating-point numbers
-    const expectClose = (a: number, b: number, precision: number = 6) => {
-        expect(a).toBeCloseTo(b, precision);
-    };
-
     test('should return the correct curvature', () => {
         expect((new Trig(1)).getCurvature()).toBe(1);
     });

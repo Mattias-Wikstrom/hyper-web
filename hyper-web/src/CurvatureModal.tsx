@@ -8,7 +8,7 @@ interface ModalProps {
   previousCurvature: number;
 }
 
-const CurvatureModal: React.FC<ModalProps> = ({ isOpen, onClose, title, previousCurvature }) => {
+const CurvatureModal: React.FC<ModalProps> = ({ isOpen, onClose, previousCurvature }) => {
   if (!isOpen) return null; // Don't render modal if it's closed
 
   let [curvature, setCurvature] = useState(previousCurvature);
