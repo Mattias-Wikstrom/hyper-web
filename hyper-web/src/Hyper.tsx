@@ -45,6 +45,9 @@ interface HyperState {
   filename: string;
   aboutOpen: boolean;
   instructionsOpen: boolean;
+  bMouseDown: boolean;
+  lastClientX: number;
+  lastClientY: number;
 }
 
 class Hyper extends Component<HyperProps, HyperState> {
@@ -193,7 +196,10 @@ class Hyper extends Component<HyperProps, HyperState> {
       alertMessage : '',
       filename: initialFilename,
       aboutOpen : false,
-      instructionsOpen : false
+      instructionsOpen : false,
+      bMouseDown : false,
+      lastClientX : 0,
+      lastClientY : 0
     };
 
     this.canvasRef = createRef();
@@ -418,6 +424,53 @@ class Hyper extends Component<HyperProps, HyperState> {
             break;
     }
   };
+  
+  onMouseReleased = (e: React.MouseEvent) => {  
+    this.setState({
+      bMouseDown: false
+    });
+  }
+  
+  onMouseMove = (e: React.MouseEvent) => {  
+    const difference = (a : number, b : number) => a < b ? b - a : a - b;
+
+    if (this.state.bMouseDown) {
+      if (difference(e.clientX, this.state.lastClientX) < 3
+        && difference(e.clientY, this.state.lastClientY) < 3) {
+          //console.log('Skipping');
+          return; // Avoid drawing lots of points
+      }
+
+      const canvas = this.canvasRef.current;
+
+      if (canvas) {
+        const transform = this.calculateTransform(canvas);
+        
+        const rect = (e.target as HTMLElement).getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const src = new DOMPoint(x, y);
+        const dst = src.matrixTransform(transform.inverse());
+
+        const ang = Math.atan2(dst.x, dst.y);
+        const r = Math.sqrt(dst.x * dst.x + dst.y * dst.y);
+
+        const p = new Point(new Length(r), new Angle(-ang + Math.PI));
+        
+        this.setState({
+          elements: [...this.state.elements, p],
+          bChanged: true,
+          lastClientX: e.clientX,
+          lastClientY: e.clientY,
+        });
+        
+        this.repaint();
+      }
+
+      //console.log('*');
+    }
+  }
 
   onMousePressed = (e: React.MouseEvent) => {            
     const canvas = this.canvasRef.current;
@@ -438,15 +491,19 @@ class Hyper extends Component<HyperProps, HyperState> {
       const p = new Point(new Length(r), new Angle(-ang + Math.PI));
       
       this.setState({
-        elements: [...this.state.elements, p]
-      });
-
-      this.setState({
-        bChanged: true
+        elements: [...this.state.elements, p],
+        bChanged: true,
+        lastClientX: e.clientX,
+        lastClientY: e.clientY,
       });
       
       this.repaint();
     }
+
+    
+    this.setState({
+      bMouseDown: true
+    });
   };
 
   componentDidUpdate() {
@@ -863,6 +920,8 @@ class Hyper extends Component<HyperProps, HyperState> {
             width={'598px'}
             height={'598px'}
             onMouseDown={this.onMousePressed}
+            onMouseUp={this.onMouseReleased}
+            onMouseMove={this.onMouseMove}
           ></canvas>
           
           </Box>
