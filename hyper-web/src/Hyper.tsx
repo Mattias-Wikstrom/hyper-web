@@ -425,7 +425,7 @@ class Hyper extends Component<HyperProps, HyperState> {
     }
   };
   
-  onMouseReleased = (e: React.MouseEvent) => {  
+  onMouseReleased = (_: React.MouseEvent) => {  
     this.setState({
       bMouseDown: false
     });
