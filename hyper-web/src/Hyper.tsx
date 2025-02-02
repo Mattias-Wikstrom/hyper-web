@@ -4,7 +4,6 @@ import { Angle } from './Angle';
 import { Point } from './Point';
 import { Trig } from './Trig';
 import { SpaceElement } from './SpaceElement';
-import InfoModal from './InfoModal'; 
 import CurvatureModal from './CurvatureModal';
 import { Button, Typography } from '@mui/material';
 import { withTheme } from '@mui/styles';
@@ -12,6 +11,10 @@ import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Alert } from '@mui/material';
+import InputBase from '@mui/material/InputBase';
+import { HyperStateCore, ImportAndExport } from './ImportAndExport'; 
+import Divider from '@mui/material/Divider';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 interface HyperProps {
 }
@@ -38,10 +41,15 @@ interface HyperState {
   editOpen : boolean;
   helpOpen : boolean;
   alertMessage : string;
+  filename: string;
+  aboutOpen: boolean;
+  instructionsOpen: boolean;
 }
 
 class Hyper extends Component<HyperProps, HyperState> {
   canvasRef: React.RefObject<HTMLCanvasElement>;
+
+  fileInputRef: React.RefObject<HTMLInputElement>;
 
   componentDidMount() {
     document.addEventListener('keydown', this.onKeyPressed);
@@ -194,10 +202,14 @@ class Hyper extends Component<HyperProps, HyperState> {
       fileOpen : false,
       editOpen : false,
       helpOpen : false,
-      alertMessage : ''
+      alertMessage : '',
+      filename: 'Untitled document',
+      aboutOpen : false,
+      instructionsOpen : false
     };
 
-    this.canvasRef = createRef(); 
+    this.canvasRef = createRef();
+    this.fileInputRef = createRef();
   }
 
   onKeyPressed = (e: KeyboardEvent) => {
@@ -510,38 +522,145 @@ class Hyper extends Component<HyperProps, HyperState> {
     });
   }
 
+  handleInstructionsClose= () => {
+    this.setState({
+      instructionsOpen: false
+    });
+  }
+
+  handleAboutClose= () => {
+    this.setState({
+      aboutOpen: false
+    });
+  }
+
   handleMenuItemClick = (item : string) => {
     this.handleClose();
     switch (item)
     {
       case 'open':
-        this.setState({
+        this.handleOpenFile();
+        /*this.setState({
           alertMessage: 'The Open feature has not implemented yet.'
-        });
+        });*/
         break;
       case 'download':
-        this.setState({
+        this.handleSaveFile();
+        /*this.setState({
           alertMessage: 'The Download feature has not implemented yet.'
-        });
+        });*/
         break;
       case 'curvature':
         this.setState({ isCurvatureModalOpen: true })
         break;
       case 'instructions':
-        this.setState({ isInfoModalOpen: true })
+        //this.setState({ info: instructions });
+        //this.setState({ isInfoModalOpen: true });
+        
+        this.setState({instructionsOpen: true});
+        break;
+      case 'about':
+        //this.setState({ info: about });
+        //this.setState({ isInfoModalOpen: true });
+
+        this.setState({aboutOpen: true});
         break;
     }
+  }
+
+  handleOpenFile = () => {
+    this.fileInputRef.current?.click();
+  }
+
+  handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const stateModifications : HyperStateCore = {} as HyperStateCore;
+        
+        try {      
+          ImportAndExport.import_from_string(stateModifications, e.target?.result as string);
+        }
+        catch (e) {
+          this.setState({ alertMessage: 'Failed to open file. ' + (e as any)?.reason })
+          return;
+        }
+
+        let filename = file.name;
+
+        if (filename.toLowerCase().endsWith('.hyper'))
+        {
+          filename = filename.slice(0, filename.lastIndexOf("."))
+        }
+
+        this.setState({
+          filename: filename
+        });
+
+        this.setState(stateModifications);
+      };
+
+      reader.onerror = (e) => {
+        console.log('Error reading file: ', e);
+        this.setState({ alertMessage: 'Error reading file.' })
+      };
+
+      reader.readAsText(file); // Reads file as text
+    }
+  }
+
+  handleSaveFile = () => {
+    const content = ImportAndExport.export_to_string(this.state);
+    
+    const blob = new Blob([content], { type: ".hyper" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = this.state.filename + ".hyper";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   render(): ReactNode {
     const { theme } = this.props as any;
     return (
-      <div style={{ textAlign: 'left', backgroundColor: theme.palette.background.default, }}>
+      <div style={{ textAlign: 'left', backgroundColor: theme.palette.background.default, maxWidth: '600px' }}>
+        {/* Open File */}
+        <input
+          type="file"
+          accept=".hyper" 
+          ref={this.fileInputRef}
+          style={{ display: "none" }}
+          onChange={this.handleFileChange}
+        />
+        
         <div>
         <Box style={{
               border: '1px solid #c7c7c7',
               lineHeight: 0
-            }}             >
+            }}>
+          
+            <InputBase
+              sx={{ ml: 2.1, mt: 0.5, flex: 1 }}
+              placeholder='Untitled document'
+              value={this.state.filename}
+              inputProps={{ 'aria-label': 'filename' }}
+              onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                event.stopPropagation(); 
+              }}
+              onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                event.stopPropagation(); 
+              }}
+              onChange={(e) => this.setState({ filename: e.target.value })}
+            >
+            </InputBase>
+            <br></br>
+
         <Button
           id="file-menu-button"
           aria-controls={this.state.fileOpen ? 'basic-menu' : undefined}
@@ -605,6 +724,8 @@ class Hyper extends Component<HyperProps, HyperState> {
           }}
         >
           <MenuItem onClick={() => this.handleMenuItemClick('instructions')}>Instructions...</MenuItem>
+          <Divider />
+          <MenuItem onClick={() => this.handleMenuItemClick('about')}>About Hyper...</MenuItem>
         </Menu>
 
         </Box>
@@ -616,26 +737,103 @@ class Hyper extends Component<HyperProps, HyperState> {
           previousCurvature={this.state.curvature}
           title={'Hyper'}
         />
-        <InfoModal
-          isOpen={this.state.isInfoModalOpen}
-          onClose={() => {this.setState({ isInfoModalOpen: false  }); this.canvasRef.current?.focus()}}
-          title={'Hyper'}
-          content={info}
-        />
+
+        <Dialog open={this.state.instructionsOpen} onClose={this.handleInstructionsClose} maxWidth="md" fullWidth>
+          <DialogTitle>Instructions</DialogTitle>
+          <DialogContent>
+            
+          <Typography variant="body1">
+            This program is for drawing things on surfaces of constant curvature:<br></br>
+            * Setting the curvature to 0 (the default) gives one ordinary Euclidean geometry.<br></br>
+            * Setting a positive curvature gives one spherical geometry (it is as if one was drawing things on the surface of the earth).<br></br>
+            * Setting a negative curvature gives one hyperbolic geometry.
+          </Typography>
+          <br></br>
+            <Typography variant="body1">
+              Keys used for moving:<br></br>
+              Left, Right -- Turn around<br></br>
+              Up -- Move forward<br></br>
+              Down -- Move backward<br></br>
+              Page Up, Page Down -- Move auxiliary cursor<br></br>
+              Insert -- Flip auxiliary cursor<br></br>
+              Hold down Shift and/or Control while moving to move slowly.
+            </Typography>
+            <br></br>
+            <Typography variant="body1">
+              Keys used for drawing:<br></br>
+              Q -- Draw point at auxiliary cursor<br></br>
+              A -- Draw point at main cursor
+            </Typography>
+            <br></br>
+            <Typography variant="body1">
+              Keys used for erasing:<br></br>
+              Z -- Erase at cursor<br></br>
+              X -- Like Z, but bigger eraser
+            </Typography>
+            <br></br>
+            <Typography variant="body1">
+              Zoom control:<br></br>
+              O -- Zoom out<br></br>
+              P -- Zoom in
+            </Typography>
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'center' }}>
+            <Button onClick={this.handleInstructionsClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={this.state.aboutOpen} onClose={this.handleAboutClose} maxWidth="md" fullWidth>
+          <DialogTitle>About Hyper (Web Version)</DialogTitle>
+          <DialogContent>
+            <Typography variant="h6">Version 0.2</Typography>
+            <Typography variant="body1" paragraph>
+              Developed by: Mattias Wikström
+            </Typography>
+            <Typography variant="body1" paragraph>
+              License information:
+              <br />
+              This software is licensed under the MIT License. Copyright © 2006, 2025 Mattias Wikström.
+            </Typography>
+            <Typography variant="body2" paragraph>
+              Permission is hereby granted, free of charge, to use, copy, modify, merge, publish, distribute,
+              sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+              provided to do so, subject to the following conditions:
+              <br />
+              The above copyright notice and this permission notice shall be included in all copies or substantial
+              portions of the Software.
+            </Typography>
+            <Typography variant="body2" paragraph>
+              THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+              NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+              NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+              DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM,
+              OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+            </Typography>
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'center' }}>
+            <Button onClick={this.handleAboutClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Box style={{
               border: '1px solid #c7c7c7',
               lineHeight: 0
             }} 
-            width={'600px'}
-            height={'600px'}
+            width={'598px'}
+            height={'598px'}
             ><canvas 
             ref={this.canvasRef}
-            width={'600px'}
-            height={'600px'}
+            width={'598px'}
+            height={'598px'}
             onMouseDown={this.onMousePressed}
-          ></canvas></Box>
+          ></canvas>
+          
+          </Box>
           {this.state.alertMessage && (
-          <Alert severity='info' 
+          <Alert severity='info'
             onClose={() => this.setState({ alertMessage: '' })}>
               {this.state.alertMessage}
             </Alert>
@@ -646,40 +844,13 @@ class Hyper extends Component<HyperProps, HyperState> {
   }
 }
 
-const info = `
-            Hyper -- Web Version 0.1
+const about = `
+       `;
 
-            This app is for drawing things on curved planes.
-
-            Keys used for moving:
-            Left, Right -- Turn around
-            Up -- Move forward
-            Down -- Move backward
-            Page Up, Page Down -- Move auxiliary cursor
-            Insert -- Flip auxiliary cursor
-            Hold down Shift and/or Control while moving to move slowly.
-
-            Keys used for drawing:
-            Q -- Draw point at auxiliary cursor
-            A -- Draw point at main cursor
-
-            Keys used for erasing:
-            Z -- Erase at cursor
-            X -- Like Z, but bigger eraser
-
-            Zoom control:
-            O -- Zoom out
-            P -- Zoom in
-
-            License information:
-            This software is licensed under the MIT License. Copyright © 2006, 2025 Mattias Wikström.
-
-            Permission is hereby granted, free of charge, to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is provided to do so, subject to the following conditions:
-
-            The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-            THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+const instructions = `
+        
         `;
+
 
 export default withTheme(Hyper);
 

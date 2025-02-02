@@ -16,13 +16,12 @@ const CurvatureModal: React.FC<ModalProps> = ({ isOpen, onClose, title, previous
   return (
     <div style={styles.overlay}>
       <div style={styles.modal}>
-        <Typography variant="h3" gutterBottom>
-          {title}
+        <Typography variant="h5" gutterBottom>
+          Curvature
         </Typography>
-        <label htmlFor="slider" style={{ display: 'block', marginBottom: '10px' }}>
-          Curvature:
-        </label>
 
+        <br></br>
+        <br></br>
         <div style={{ position: 'relative', width: '100%' }}>
           <input
             type="range"
@@ -60,8 +59,7 @@ const CurvatureModal: React.FC<ModalProps> = ({ isOpen, onClose, title, previous
         
         <br></br>
         <br></br>
-        <br></br>
-        <Button onClick={() => onClose(curvature)} variant="contained">Close</Button>
+        <Button onClick={() => onClose(curvature)} color="primary">Close</Button>
       </div>
     </div>
   );
