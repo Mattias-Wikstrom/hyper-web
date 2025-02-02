@@ -15,6 +15,7 @@ import InputBase from '@mui/material/InputBase';
 import { HyperStateCore, ImportAndExport } from './ImportAndExport'; 
 import Divider from '@mui/material/Divider';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import image from "./assets/Keys_used_in_Hyper.jpg"; // Adjust the path as needed
 
 interface HyperProps {
 }
@@ -69,24 +70,11 @@ class Hyper extends Component<HyperProps, HyperState> {
     console.log(`Key pressed: ${event.key}`);
   };
 
-
-  /*private hasChangedListener : ((input: boolean) => void) | null = null;
-
-  public setHasChangedListener(_listener : (input: boolean) => void)
-  {
-      this.hasChangedListener = _listener;
-  }*/
-
   private setChanged(newValue : boolean)
   {
     this.setState({
       bChanged: newValue
     });
-
-      /*if (this.hasChangedListener)
-      {
-          this.hasChangedListener(this.state.bChanged);
-    }*/
   }
 
   public drawPoints()
@@ -210,11 +198,24 @@ class Hyper extends Component<HyperProps, HyperState> {
 
     this.canvasRef = createRef();
     this.fileInputRef = createRef();
+
+    let _this = this;
+
+    window.addEventListener('beforeunload', function(event) {      
+      if (_this.state.bChanged) {
+          const message = "Are you sure you want to leave this page?";
+          event.returnValue = message;  // Required for some browsers
+          return message;  // Required for others
+      }
+    });
+    
+    const img = new Image();
+    img.src = image;
+
+    console.log(img);
   }
 
   onKeyPressed = (e: KeyboardEvent) => {
-    console.log('onKeyPressed', e.key);
-
     switch (e.key) {
       case "PageDown":
       case "PageUp":
@@ -439,6 +440,10 @@ class Hyper extends Component<HyperProps, HyperState> {
       this.setState({
         elements: [...this.state.elements, p]
       });
+
+      this.setState({
+        bChanged: true
+      });
       
       this.repaint();
     }
@@ -565,27 +570,34 @@ class Hyper extends Component<HyperProps, HyperState> {
     }
   }
   
-  handleNewFile = () => {
+  canProceedWithoutSaving = () => {
     if (this.state.bChanged)
     {
-
+      const okToProceed = confirm('Changes have not been saved. Are you sure you want to continue?');
+      
+      return okToProceed;
     }
-    
-    this.setState({
-      filename: initialFilename,
-      curvature: 0,
-      invCurvature: 1.0/0,
-      elements: []
-    });
+
+    return true;
+  }
+
+  handleNewFile = () => {
+    if (this.canProceedWithoutSaving())
+    {
+      this.setState({
+        filename: initialFilename,
+        curvature: 0,
+        invCurvature: 1.0/0,
+        elements: []
+      });
+    }
   }
 
   handleOpenFile = () => {
-    if (this.state.bChanged)
+    if (this.canProceedWithoutSaving())
     {
-      
+      this.fileInputRef.current?.click();
     }
-    
-    this.fileInputRef.current?.click();
   }
 
   handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -640,6 +652,10 @@ class Hyper extends Component<HyperProps, HyperState> {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+
+    this.setState({
+        bChanged: false
+      });
   }
 
   render(): ReactNode {
@@ -672,7 +688,7 @@ class Hyper extends Component<HyperProps, HyperState> {
               onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => {
                 event.stopPropagation(); 
               }}
-              onChange={(e) => this.setState({ filename: e.target.value })}
+              onChange={(e) => this.setState({ filename: e.target.value, bChanged: true })}
             >
             </InputBase>
             <br></br>
@@ -761,11 +777,12 @@ class Hyper extends Component<HyperProps, HyperState> {
             
           <Typography variant="body1">
             This program is for drawing things on surfaces of constant curvature:<br></br>
-            * Setting the curvature to 0 (the default) gives one ordinary Euclidean geometry.<br></br>
-            * Setting a positive curvature gives one spherical geometry (it is as if one was drawing things on the surface of the earth).<br></br>
-            * Setting a negative curvature gives one hyperbolic geometry.
+            * Set the curvature to 0 for ordinary, Euclidean geometry.<br></br>
+            * Set a positive curvature to draw on the surface of a sphere (spherical geometry).<br></br>
+            * Set a negative curvature to get hyperbolic geometry.
           </Typography>
           <br></br>
+          <Box component="img" src={image} alt="Keyboard with keys that are used in Hyper" height={200} />
             <Typography variant="body1">
               Keys used for moving:<br></br>
               Left, Right -- Turn around<br></br>

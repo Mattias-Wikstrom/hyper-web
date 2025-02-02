@@ -37,7 +37,7 @@ body {
 
 canvas {
   background-color: white;
-
+  cursor: crosshair;
 }
 
 h1 {
