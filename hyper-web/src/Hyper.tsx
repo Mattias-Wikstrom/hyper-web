@@ -203,7 +203,7 @@ class Hyper extends Component<HyperProps, HyperState> {
       editOpen : false,
       helpOpen : false,
       alertMessage : '',
-      filename: 'Untitled document',
+      filename: initialFilename,
       aboutOpen : false,
       instructionsOpen : false
     };
@@ -538,17 +538,14 @@ class Hyper extends Component<HyperProps, HyperState> {
     this.handleClose();
     switch (item)
     {
+      case 'new':
+        this.handleNewFile();
+        break;
       case 'open':
         this.handleOpenFile();
-        /*this.setState({
-          alertMessage: 'The Open feature has not implemented yet.'
-        });*/
         break;
       case 'download':
         this.handleSaveFile();
-        /*this.setState({
-          alertMessage: 'The Download feature has not implemented yet.'
-        });*/
         break;
       case 'curvature':
         this.setState({ isCurvatureModalOpen: true })
@@ -567,8 +564,27 @@ class Hyper extends Component<HyperProps, HyperState> {
         break;
     }
   }
+  
+  handleNewFile = () => {
+    if (this.state.bChanged)
+    {
+
+    }
+    
+    this.setState({
+      filename: initialFilename,
+      curvature: 0,
+      invCurvature: 1.0/0,
+      elements: []
+    });
+  }
 
   handleOpenFile = () => {
+    if (this.state.bChanged)
+    {
+      
+    }
+    
     this.fileInputRef.current?.click();
   }
 
@@ -647,7 +663,7 @@ class Hyper extends Component<HyperProps, HyperState> {
           
             <InputBase
               sx={{ ml: 2.1, mt: 0.5, flex: 1 }}
-              placeholder='Untitled document'
+              placeholder={initialFilename}
               value={this.state.filename}
               inputProps={{ 'aria-label': 'filename' }}
               onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -680,6 +696,7 @@ class Hyper extends Component<HyperProps, HyperState> {
             'aria-labelledby': 'file-menu-button'
           }}
         >
+          <MenuItem onClick={() => { this.handleMenuItemClick('new'); }}>New</MenuItem>
           <MenuItem onClick={() => { this.handleMenuItemClick('open'); }}>Open...</MenuItem>
           <MenuItem onClick={() => { this.handleMenuItemClick('download'); }}>Download...</MenuItem>
         </Menu>
@@ -843,6 +860,8 @@ class Hyper extends Component<HyperProps, HyperState> {
     );
   }
 }
+
+const initialFilename = 'Untitled document';
 
 export default withTheme(Hyper);
 
