@@ -9,11 +9,11 @@ The program is at the same time i) a simple drawing program that one can use to 
 The program may be used as a pedagogical tool when teaching geometry.
 # Versions of Hyper
 Hyper currently exists in two versions:
-* A desktop version written in Java (not in this repo).
+* A desktop version written in Java (not this repo).
 * A web version written in TypeScript which uses React (this repo).
 
 # Trying Hyper Online
-The web version of Hyper can be tried [here](https://mattias-wikstrom.github.io/hyper/).
+The web version of Hyper can be tried [here](https://mattias-wikstrom.github.io/hyper-web/).
 
 ## Getting Started with Hyper
 
