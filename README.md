@@ -9,62 +9,11 @@ The program is at the same time i) a simple drawing program that one can use to 
 The program may be used as a pedagogical tool when teaching geometry.
 # Versions of Hyper
 Hyper currently exists in two versions:
-* A desktop version written in Java.
-* A web version written in TypeScript which uses React.
+* A desktop version written in Java (not in this repo).
+* A web version written in TypeScript which uses React (this repo).
 
 # Trying Hyper Online
 The web version of Hyper can be tried [here](https://mattias-wikstrom.github.io/hyper/).
-
-# Building and Running the Java Version
-
-## Prerequisites
-
-Make sure the following are installed:
-- A recent version of the Java Development Kit (JDK). Version 21 works.
-- Maven
-- JavaFX (either as part of JDK or as a standalone SDK; version 23 works)
-
-## Setting up the Environment
-
-1. Set the environment variable `JAVA_FX_SDK_PATH` to point to the location where the JavaFX SDK is installed. For example:
-    ```bash
-    export JAVA_FX_SDK_PATH=/some/path/javafx-sdk-23.0.2
-    ```
- or
-    ```
-    set JAVA_FX_SDK_PATH=C:\some\path\javafx-sdk-23.0.2
-    ```
-
-## Building the Project
-
-2. Use the following command to compile the code (ensure you have installed the Java Development Kit along with Maven):
-    ```bash
-    mvn clean package
-    ```
-
-## Running the Program
-
-3. Then run the program using one of the following commands:
-
-    - **Option 1:** 
-      ```bash
-      mvn javafx:run
-      ```
-
-    - **Option 2:**
-      ```bash
-      mvn exec:java
-      ```
-
-    - **Option 3 (Linux):**
-      ```bash
-      target/image/bin/com.mattiaswikstrom.hyper.Hyper
-      ```
-
-    - **Option 3 (Windows):**
-      ```bash
-      target\image\bin\com.mattiaswikstrom.hyper.Hyper.bat
-      ```
 
 ## Getting Started with Hyper
 
